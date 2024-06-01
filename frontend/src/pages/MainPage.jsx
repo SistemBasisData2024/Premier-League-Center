@@ -37,23 +37,30 @@ const MainPage = () => {
     const ref3 = useRef();
     const isVisible3 = useIsVisible(ref3);
 
-    return (
-        <div className="bg-primary w-full relative pt-9">
-            <Navbar />
+        return (
+            <div className="bg-primary w-full relative pt-9">
+                <Navbar />
 
-            <div className={`bg-primary ${style.flexStart}`}>
-                <div ref={ref1} className={`${style.boxWidth} hero-background`}>
-                    <Hero />
+                <div className={`bg-primary ${style.flexStart}`}>
+                    <div ref={ref1} className={`${style.boxWidth} hero-background`}>
+                        <Hero />
+                    </div>
+                </div>
+
+                <div className={`bg-primary ${style.paddingX} ${style.flexCenter}`}>
+                    <div ref={ref2} className={`${style.boxWidth} transition-opacity ease-in duration-700 ${isVisible2 ? "opacity-100" : "opacity-0"}`}>
+                        {/* <Schedule /> */}
+                    </div>
+                </div>
+
+                <div className={`bg-primary ${style.paddingX} ${style.flexCenter}`}>
+                    <div ref={ref3} className={`${style.boxWidth} transition-opacity ease-in duration-700 ${isVisible3 ? "opacity-100" : "opacity-0"}`}>
+                        {/* <Results /> */}
+                        <Footer />
+                    </div>
                 </div>
             </div>
+        );
+    };
 
-            <div className={`bg-primary ${style.paddingX} ${style.flexCenter}`}>
-                <div ref={ref2} className={`${style.boxWidth} transition-opacity ease-in duration-700 ${isVisible3 ? "opacity-100" : "opacity-0"}`}>
-                    <Footer />
-                </div>
-            </div>
-        </div>
-    );
-};
-
-export default MainPage;
+    export default MainPage;

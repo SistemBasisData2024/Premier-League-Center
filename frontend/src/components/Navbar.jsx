@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import style from "../style.js";
-import logo from "../assets/logo-plc.png";
+import logo from "../assets/logo-plc-putih.png";
 import menu from "../assets/menu.svg";
 import close from "../assets/close.svg";
 import { navLinks } from "../index.js";
