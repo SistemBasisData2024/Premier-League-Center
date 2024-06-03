@@ -1,11 +1,12 @@
 const Pool = require('pg').Pool;
+require('dotenv').config();
 
 const pool = new Pool({
-    host: "ep-hidden-hat-a10kf780.ap-southeast-1.aws.neon.tech",
-    user: "sbd_9",
-    database: "main_sbd_9",
-    password: "F95NRVDCpKEJ",
-    port: 5432,
+    host: process.env.USER_HOST,
+    user: process.env.USER_NAME,
+    database: process.env.USER_DATABASE,
+    password: process.env.USER_PASSWORD,
+    port: process.env.USER_PORT,
     sslmode: "require",
     ssl: true,
 });   

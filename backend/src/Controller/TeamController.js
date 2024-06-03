@@ -2,9 +2,7 @@ const db = require('../db');//mundur 2 kali
 const bcrypt = require('bcrypt');
  
 
-  
-
-  const Teams = async (req, res) => {
+ const Teams = async (req, res) => {
     db.query(
       `SELECT * FROM teams`,
       (err, result) => {
