@@ -7,7 +7,7 @@ const Routes = require('./src/routes');
 const db = require('./src/db');//mundur 2 kali
 
 const app = express();
-const port = 3002;
+const port = 3001;
 
 app.use(bp.json());
 app.use(bp.urlencoded({ extended: true }));
