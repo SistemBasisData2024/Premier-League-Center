@@ -50,17 +50,28 @@ const Navbar = () => {
   const handleLogout = () => {
     sessionStorage.setItem("isLogin", "false");
     setIsLogin(false);
-    addToast('success', 'You have been logged out!');
-    setTimeout(() => window.location.href = "/", 3000);
+    addToast("success", "You have been logged out!");
+    setTimeout(() => (window.location.href = "/"), 3000);
   };
 
   return (
     <>
-      <div className={`${style.paddingX} w-full flex justify-center ${style.nempelAtas} transition-colors duration-300 z-50 ${scrolled ? "bg-navbar-gradient" : "bg-black"}`}>
+      <div
+        className={`${style.paddingX} w-full flex justify-center ${
+          style.nempelAtas
+        } transition-colors duration-300 z-50 ${
+          scrolled ? "bg-navbar-gradient" : "bg-black"
+        }`}
+      >
         <div className={`${style.boxWidth}`}>
           <div className="w-full flex py-6 justify-between items-center navbar">
-            <img src={logo} alt="Premier-League-Center" className="w-[px] h-[50px]" />
-
+            <a href="/">
+              <img
+                src={logo}
+                alt="Premier-League-Center"
+                className="w-[px] h-[50px]"
+              />
+            </a>
             <ul className="list-none sm:flex hidden justify-end items-center flex-1">
               {updatedNavLinks.map((nav, index) => (
                 <li
@@ -70,7 +81,7 @@ const Navbar = () => {
                   } ${index === navLinks.length - 1 ? "mr-0" : "mr-10"}`}
                   onClick={() => {
                     setActive(nav.title);
-                    if (nav.id === "login" && isLogin){
+                    if (nav.id === "login" && isLogin) {
                       handleLogout();
                     }
                   }}
@@ -102,7 +113,7 @@ const Navbar = () => {
                       } ${index === navLinks.length - 1 ? "mb-0" : "mb-4"}`}
                       onClick={() => {
                         setActive(nav.title);
-                        if (nav.id === "login" && isLogin){
+                        if (nav.id === "login" && isLogin) {
                           handleLogout();
                         }
                       }}
