@@ -2,7 +2,7 @@
 
 --enum
 CREATE TYPE status AS ENUM ('Upcoming', 'Ongoing', 'Completed');
-CREATE TYPE role AS ENUM ('Goalkeeper', 'Defender', 'Midfielder', 'Forward', 'Substitute');
+CREATE TYPE role AS ENUM ('Goalkeeper', 'Defender', 'Midfielder', 'Forward', 'Substitute', 'Centre-Back', 'Left-Back', 'Right-Back', 'Defensive Midfield', 'Left Midfield', 'Right Midfield', 'Central Midfield', 'Attacking Midfield', 'Left Winger', 'Right Winger', 'Centre-Forward');
 
 --sudah diinput
 
