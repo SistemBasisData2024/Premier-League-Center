@@ -7,7 +7,7 @@ import { navLinks } from "../index.js";
 import ToastContainer from "./ToastContainer"; // import the ToastContainer component
 
 const Navbar = () => {
-  const [active, setActive] = useState("Home");
+  const [active, setActive] = useState();
   const [toggle, setToggle] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
@@ -75,13 +75,13 @@ const Navbar = () => {
             <ul className="list-none sm:flex hidden justify-end items-center flex-1">
               {updatedNavLinks.map((nav, index) => (
                 <li
-                  key={nav.id}
-                  className={`font-poppins font-normal cursor-pointer text-[16px] ${
-                    active === nav.title ? "text-white" : "text-dimWhite"
-                  } ${index === navLinks.length - 1 ? "mr-0" : "mr-10"}`}
+                  id={nav.id}
+                  className={`font-poppins font-normal cursor-pointer text-[16px] 
+                  ${active === nav.id ? "text-white" : "text-gray-300"} 
+                  ${index === navLinks.length - 1 ? "mr-0" : "mr-10"}`}
                   onClick={() => {
-                    setActive(nav.title);
                     if (nav.id === "login" && isLogin) {
+                      setActive(nav.id);
                       handleLogout();
                     }
                   }}
@@ -104,24 +104,7 @@ const Navbar = () => {
                   !toggle ? "hidden" : "flex"
                 } p-6 bg-black-gradient absolute top-20 right-0 mx-4 my-2 min-w-[140px] rounded-xl sidebar`}
               >
-                <ul className="list-none flex justify-end items-start flex-1 flex-col">
-                  {updatedNavLinks.map((nav, index) => (
-                    <li
-                      key={nav.id}
-                      className={`font-poppins font-medium cursor-pointer text-[16px] ${
-                        active === nav.title ? "text-white" : "text-dimWhite"
-                      } ${index === navLinks.length - 1 ? "mb-0" : "mb-4"}`}
-                      onClick={() => {
-                        setActive(nav.title);
-                        if (nav.id === "login" && isLogin) {
-                          handleLogout();
-                        }
-                      }}
-                    >
-                      <a href={`/${nav.id}`}>{nav.title}</a>
-                    </li>
-                  ))}
-                </ul>
+                
               </div>
             </div>
           </div>

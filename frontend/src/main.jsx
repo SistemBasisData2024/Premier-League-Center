@@ -7,6 +7,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ClubsPage from './pages/ClubsPage';
 import ErrorPage from './pages/Page404';
+import LeaderboardPage from './pages/LeaderboardPage';
 import './index.css';
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 
@@ -19,6 +20,7 @@ const router = createBrowserRouter(
       <Route path="login" element={<LoginPage />} />
       <Route path="register" element={<RegisterPage />} />
       <Route path="clubs" element={<ClubsPage />} />
+      <Route path="leaderboard" element={<LeaderboardPage />} />
     </Route>
   )
 );

@@ -16,6 +16,10 @@ export const navLinks = [
       title: "Clubs",
     },
     {
+      id: "leaderboard",
+      title: "Leaderboard",
+    },
+    {
       id: "DataManagement",
       title: "Data Management",
     },
