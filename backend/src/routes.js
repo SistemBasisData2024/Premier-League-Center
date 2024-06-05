@@ -27,9 +27,20 @@ router.post("/InsertTeam", TeamController.InsertTeam);
 //Untuk Delete Team
 router.delete("/DeleteTeam", TeamController.DeleteTeam);
 
-//Untuk table Matches
+//-------------------------------------------------------------
+
+//Untuk Match Tables
 //Untuk Upcoming Matches
 router.get("/UpcomingMatches", MatchController.UpcomingMatches);
+
+//Untuk Result Matches
+router.get("/UpcomingMatches", MatchController.UpcomingMatches);
+
+//Untuk PL Table
+router.get("/PremierLeague", MatchController.PremLeagTable);
+
+//-------------------------------------------------------------
+
 
 
 module.exports = router;
