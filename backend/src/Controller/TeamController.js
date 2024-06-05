@@ -1,6 +1,4 @@
-const db = require('../db');//mundur 2 kali
-const bcrypt = require('bcrypt');
- 
+const db = require('../db');//mundur 2 kali 
 
  const Teams = async (req, res) => {
     db.query(
@@ -15,7 +13,7 @@ const bcrypt = require('bcrypt');
     );
   };
 
-const InsertTeam = (req, res) => {
+const InsertTeam = async (req, res) => {
   const { code, name } = req.body;
 
   if (!code || !name) {

@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const AdminController = require('./Controller/AdminController');
 const TeamController = require('./Controller/TeamController');
+const MatchController = require('./Controller/MatchController');
 const router = Router();
 
 
@@ -26,4 +27,10 @@ router.post("/InsertTeam", TeamController.InsertTeam);
 //Untuk Delete Team
 router.delete("/DeleteTeam", TeamController.DeleteTeam);
 
+//Untuk table Matches
+//Untuk Upcoming Matches
+router.get("/UpcomingMatches", MatchController.UpcomingMatches);
+
+
 module.exports = router;
+
