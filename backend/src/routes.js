@@ -1,19 +1,18 @@
-const { Router } = require('express');
-const AdminController = require('./Controller/AdminController');
-const TeamController = require('./Controller/TeamController');
-const MatchController = require('./Controller/MatchController');
+const { Router } = require("express");
+const AdminController = require("./Controller/AdminController");
+const TeamController = require("./Controller/TeamController");
+const MatchController = require("./Controller/MatchController");
 const router = Router();
-
 
 //Admin
 //untuk cek database admin
-router.get('/cek', AdminController.Cek);
+router.get("/cek", AdminController.Cek);
 
 //untuk Register
-router.post('/RegisterAdmin', AdminController.Register);
+router.post("/RegisterAdmin", AdminController.Register);
 
 //untuk Login
-router.post('/LoginAdmin', AdminController.Login);
+router.post("/LoginAdmin", AdminController.Login);
 
 //-------------------------------------------------------------
 
@@ -21,11 +20,8 @@ router.post('/LoginAdmin', AdminController.Login);
 //Untuk cek Teams
 router.get("/Teams", TeamController.Teams);
 
-//Untuk Insert Team
-router.post("/InsertTeam", TeamController.InsertTeam);
-
-//Untuk Delete Team
-router.delete("/DeleteTeam", TeamController.DeleteTeam);
+//Untuk detail team
+router.get("/teamInfo/:team_code", TeamController.TeamInfo);
 
 //-------------------------------------------------------------
 
@@ -41,7 +37,4 @@ router.get("/PremierLeague", MatchController.PremLeagTable);
 
 //-------------------------------------------------------------
 
-
-
 module.exports = router;
-
