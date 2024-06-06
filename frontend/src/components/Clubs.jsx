@@ -1,10 +1,18 @@
 import * as assets from "../assets";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 const Clubs = () => {
   const [teams, setTeams] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
+  const cardsRef = useRef([]);
+
+  // Define filteredTeams here
+  const filteredTeams = teams
+    .filter((team) =>
+      team.team_name.toLowerCase().includes(searchKeyword.toLowerCase())
+    )
+    .sort((a, b) => a.team_name.localeCompare(b.team_name)); // Sort teams alphabetically
 
   useEffect(() => {
     fetch("http://localhost:3001/teams")
@@ -13,13 +21,35 @@ const Clubs = () => {
       .catch((error) => console.error("Error fetching data", error));
   }, []);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("opacity-100", "transform-none");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+      }
+    );
+
+    cardsRef.current.forEach((card) => {
+      if (card) {
+        observer.observe(card);
+      }
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [filteredTeams]); // Update dependency to include filteredTeams
+
   const handleSearchChange = (e) => {
     setSearchKeyword(e.target.value);
   };
-
-  const filteredTeams = teams.filter((team) =>
-    team.team_name.toLowerCase().includes(searchKeyword.toLowerCase())
-  );
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
@@ -40,7 +70,8 @@ const Clubs = () => {
           <Link
             key={index}
             to={`/clubs/${team.team_code}`}
-            className="group relative overflow-hidden rounded-lg shadow-lg transition-all duration-300"
+            className="group relative overflow-hidden rounded-lg shadow-lg transition-all ease-in duration-700 transform translate-y-10 opacity-0"
+            ref={(el) => (cardsRef.current[index] = el)}
           >
             <div className="relative h-64 glassmorphism">
               <img

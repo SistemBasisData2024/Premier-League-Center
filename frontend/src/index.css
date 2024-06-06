@@ -29,6 +29,11 @@
   text-fill-color: transparent;
 }
 
+.bg-primary{
+  background-color: #050505;
+
+}
+
 .bg-purple-gradient {
   background: linear-gradient(90deg,
       rgba(56, 0, 60, 1) 0%,
@@ -103,8 +108,18 @@
   animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
-/* styles.css or style.module.css */
-/* styles.css or style.module.css */
+.transform-none {
+  transform: none !important;
+}
+
+.opacity-100 {
+  opacity: 1 !important;
+}
+
+.group {
+  transition: all 0.3s ease;
+}
+
 .button {
   background-color: #000;
   /* Black background */
@@ -146,7 +161,6 @@
 .button:hover::before {
   opacity: 1;
 }
-
 
 @-webkit-keyframes slide-top {
   0% {

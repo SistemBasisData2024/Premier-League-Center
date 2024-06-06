@@ -1,10 +1,18 @@
 import React, { useState } from "react";
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import ToastContainer from './ToastContainer';
 import styles from "../style";
-import ToastContainer from './ToastContainer'; // Import the ToastContainer component
 
 const Login = () => {
     const [username, setUsername] = useState("");
     const [pass, setPass] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
     const [toasts, setToasts] = useState([]);
 
     const addToast = (type, message) => {
@@ -19,6 +27,10 @@ const Login = () => {
 
     const handleLogin = async (event) => {
         event.preventDefault();
+        if (!username || !pass) {
+            addToast('error', 'All fields are required');
+            return;
+        }
         try {
             const response = await fetch("http://localhost:3001/LoginAdmin", {
                 method: "POST",
@@ -42,6 +54,10 @@ const Login = () => {
         }
     };
 
+    const handleClickShowPassword = () => {
+        setShowPassword((prevShowPassword) => !prevShowPassword);
+    };
+
     return (
         <div className="flex justify-center items-center h-screen pb-24">
             <section id="login" className={`flex md:flex-row flex-col ${styles.paddingX}`}>
@@ -49,18 +65,105 @@ const Login = () => {
                     <h1 className="font-poppins font-semibold text-[55px] text-white leading-[100.8px] mb-8">
                         <span className="text-gradient">Login</span>
                     </h1>
-                    <form onSubmit={handleLogin} className="flex flex-col justify-center items-center border-white border-2 rounded-md p-6">
-                        <div className="font-poppins font-semibold text-white text-[15px] leading-[23.4px] mb-4">
-                            <label htmlFor="username" className="block mb-2">Username</label>
-                            <input type="text" id="username" name="username" className="w-full px-3 py-2 border rounded-md" value={username} onChange={(event) => setUsername(event.target.value)} required />
-                        </div>
-                        <div className="font-poppins font-semibold text-white text-[15px] leading-[23.4px] mb-4">
-                            <label htmlFor="password" className="block mb-2">Password</label>
-                            <input type="password" id="password" name="password" className="w-full px-3 py-2 border rounded-md" value={pass} onChange={(event) => setPass(event.target.value)} required />
-                        </div>
-                        <button type="submit" className="button mt-8">Sign in</button>
-                    </form>
-                    <p className="mt-4 text-white">
+                    <Box
+                        component="form"
+                        onSubmit={handleLogin}
+                        sx={{
+                            '& .MuiTextField-root': { m: 1, width: '40ch' },
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            border: '2px solid white',
+                            borderRadius: '8px',
+                            padding: '24px',
+                            backgroundColor: '#050505'
+                        }}
+                        noValidate
+                        autoComplete="off"
+                    >
+                        <TextField
+                            id="username"
+                            label="Username"
+                            variant="outlined"
+                            value={username}
+                            onChange={(event) => setUsername(event.target.value)}
+                            InputLabelProps={{ style: { color: 'white' } }}
+                            InputProps={{
+                                style: { color: 'white' },
+                                classes: {
+                                    notchedOutline: 'border-white'
+                                },
+                                sx: {
+                                    '& .MuiOutlinedInput-root': {
+                                        '& fieldset': {
+                                            borderColor: 'white',
+                                        },
+                                        '&:hover fieldset': {
+                                            borderColor: 'white',
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: 'white',
+                                        },
+                                    },
+                                }
+                            }}
+                            sx={{ paddingBottom: '8px'}}
+                        />
+                        <TextField
+                            id="password"
+                            label="Password"
+                            variant="outlined"
+                            type={showPassword ? "text" : "password"}
+                            value={pass}
+                            onChange={(event) => setPass(event.target.value)}
+                            InputLabelProps={{ style: { color: 'white' } }}
+                            InputProps={{
+                                style: { color: 'white' },
+                                classes: {
+                                    notchedOutline: 'border-white'
+                                },
+                                sx: {
+                                    '& .MuiOutlinedInput-root': {
+                                        '& fieldset': {
+                                            borderColor: 'white',
+                                        },
+                                        '&:hover fieldset': {
+                                            borderColor: 'white',
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: 'white',
+                                        },
+                                    },
+                                },
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            onClick={handleClickShowPassword}
+                                            edge="end"
+                                            sx={{ color: 'white' }}
+                                        >
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
+                            }}
+                            sx={{ paddingBottom: '8px'}}
+                        />
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            sx={{ 
+                                mt: 2, 
+                                backgroundColor: '#4b0082', 
+                                '&:hover': { backgroundColor: '#38003c' },
+                                padding: '12px 24px',
+                            }}
+                        >
+                            Sign in
+                        </Button>
+                    </Box>
+                    <p className="mt-4 text-white mb-4">
                         Don't have an account? <a href="/Register" className="text-purple-500 hover:text-purple-700">Sign Up</a>
                     </p>
                 </div>

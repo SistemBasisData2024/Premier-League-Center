@@ -1,10 +1,20 @@
 import React, { useState } from "react";
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import ToastContainer from './ToastContainer';
 import styles from "../style";
-import ToastContainer from './ToastContainer'; // Import the ToastContainer component
 
 const Register = () => {
     const [username, setUsername] = useState("");
     const [pass, setPass] = useState("");
+    const [confirmPass, setConfirmPass] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [toasts, setToasts] = useState([]);
 
     const addToast = (type, message) => {
@@ -19,6 +29,14 @@ const Register = () => {
 
     const handleRegister = async (event) => {
         event.preventDefault();
+        if (!username || !pass || !confirmPass) {
+            addToast('error', 'All fields are required');
+            return;
+        }
+        if (pass !== confirmPass) {
+            addToast('error', 'Passwords do not match');
+            return;
+        }
         try {
             const response = await fetch("http://localhost:3001/RegisterAdmin", {
                 method: "POST",
@@ -40,6 +58,9 @@ const Register = () => {
         }
     };
 
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
+    const handleClickShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
+
     return (
         <div className="flex justify-center items-center h-screen pb-24">
             <section id="register" className={`flex md:flex-row flex-col ${styles.paddingX}`}>
@@ -47,18 +68,106 @@ const Register = () => {
                     <h1 className="font-poppins font-semibold text-[55px] text-white leading-[100.8px] mb-8">
                         <span className="text-gradient">Register</span>
                     </h1>
-                    <form onSubmit={handleRegister} className="flex flex-col justify-center items-center border-white border-2 rounded-md p-6">
-                        <div className="font-poppins font-semibold text-white text-[15px] leading-[23.4px] mb-4">
-                            <label htmlFor="username" className="block mb-2">Username</label>
-                            <input type="text" id="username" name="username" className="w-full px-3 py-2 border rounded-md" value={username} onChange={(event) => setUsername(event.target.value)} required />
-                        </div>
-                        <div className="font-poppins font-semibold text-white text-[15px] leading-[23.4px] mb-4">
-                            <label htmlFor="password" className="block mb-2">Password</label>
-                            <input type="password" id="password" name="password" className="w-full px-3 py-2 border rounded-md" value={pass} onChange={(event) => setPass(event.target.value)} required />
-                        </div>
-                        <button type="submit" className="button mt-8">Sign up</button>
-                    </form>
-                    <p className="mt-4 text-white">
+                    <Box
+                        component="form"
+                        onSubmit={handleRegister}
+                        sx={{
+                            '& .MuiTextField-root': { m: 1, width: '40ch' },
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            border: '2px solid white',
+                            borderRadius: '8px',
+                            padding: '24px',
+                            backgroundColor: '#050505'
+                        }}
+                        noValidate
+                        autoComplete="off"
+                    >
+                        <TextField
+                            id="username"
+                            label="Username"
+                            variant="outlined"
+                            value={username}
+                            onChange={(event) => setUsername(event.target.value)}
+                            InputLabelProps={{ style: { color: 'white' } }}
+                            InputProps={{
+                                style: { color: 'white' },
+                                classes: {
+                                    notchedOutline: 'border-white'
+                                }
+                            }}
+                            sx={{ paddingBottom: '8px'}}
+                        />
+                        <TextField
+                            id="password"
+                            label="Password"
+                            variant="outlined"
+                            type={showPassword ? 'text' : 'password'}
+                            value={pass}
+                            onChange={(event) => setPass(event.target.value)}
+                            InputLabelProps={{ style: { color: 'white' } }}
+                            InputProps={{
+                                style: { color: 'white' },
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            edge="end"
+                                        >
+                                            {showPassword ? <VisibilityOff style={{ color: 'white' }} /> : <Visibility style={{ color: 'white' }} />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                                classes: {
+                                    notchedOutline: 'border-white'
+                                }
+                            }}
+                            sx={{ paddingBottom: '8px'}}
+                        />
+                        <TextField
+                            id="confirm-password"
+                            label="Confirm Password"
+                            variant="outlined"
+                            type={showConfirmPassword ? 'text' : 'password'}
+                            value={confirmPass}
+                            onChange={(event) => setConfirmPass(event.target.value)}
+                            InputLabelProps={{ style: { color: 'white' } }}
+                            InputProps={{
+                                style: { color: 'white' },
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle confirm password visibility"
+                                            onClick={handleClickShowConfirmPassword}
+                                            edge="end"
+                                        >
+                                            {showConfirmPassword ? <VisibilityOff style={{ color: 'white' }} /> : <Visibility style={{ color: 'white' }} />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                                classes: {
+                                    notchedOutline: 'border-white'
+                                }
+                            }}
+                            sx={{ paddingBottom: '8px'}}
+                        />
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            sx={{ 
+                                mt: 2, 
+                                backgroundColor: '#4b0082', 
+                                '&:hover': { backgroundColor: '#38003c' },
+                                padding: '12px 24px',
+                            }}
+                        >
+                            Sign up
+                        </Button>
+                    </Box>
+                    <p className="mt-4 text-white mb-4">
                         Already have an account? <a href="/Login" className="text-purple-500 hover:text-purple-700">Sign In</a>
                     </p>
                 </div>
