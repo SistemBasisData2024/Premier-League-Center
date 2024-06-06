@@ -6,6 +6,7 @@ import MainPage from './pages/MainPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ClubsPage from './pages/ClubsPage';
+import ClubDetail from './pages/ClubDetail';
 import ErrorPage from './pages/Page404';
 import LeaderboardPage from './pages/LeaderboardPage';
 import './index.css';
@@ -20,6 +21,7 @@ const router = createBrowserRouter(
       <Route path="login" element={<LoginPage />} />
       <Route path="register" element={<RegisterPage />} />
       <Route path="clubs" element={<ClubsPage />} />
+      <Route path="clubs/:team_code" element={<ClubDetail />} />
       <Route path="leaderboard" element={<LeaderboardPage />} />
     </Route>
   )
