@@ -1,18 +1,18 @@
 import * as assets from "../assets";
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import ColorThief from "colorthief";
 
 const Clubs = () => {
   const [teams, setTeams] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
   const cardsRef = useRef([]);
+  const colorThief = new ColorThief();
 
   // Define filteredTeams here
-  const filteredTeams = teams
-    .filter((team) =>
-      team.team_name.toLowerCase().includes(searchKeyword.toLowerCase())
-    )
-    .sort((a, b) => a.team_name.localeCompare(b.team_name)); // Sort teams alphabetically
+  const filteredTeams = teams.filter((team) =>
+    team.team_name.toLowerCase().includes(searchKeyword.toLowerCase())
+  );
 
   useEffect(() => {
     fetch("http://localhost:3001/teams")
@@ -51,6 +51,22 @@ const Clubs = () => {
     setSearchKeyword(e.target.value);
   };
 
+  const setCardBackgroundColor = (imgElement, cardElement) => {
+    if (imgElement.complete) {
+      const color = colorThief.getColor(imgElement);
+      const rgbColor = `rgb(${color.join(",")})`;
+      cardElement.style.setProperty("--hover-bg-color", rgbColor);
+      cardElement.style.setProperty("--border-color", rgbColor);
+    } else {
+      imgElement.addEventListener("load", () => {
+        const color = colorThief.getColor(imgElement);
+        const rgbColor = `rgb(${color.join(",")})`;
+        cardElement.style.setProperty("--hover-bg-color", rgbColor);
+        cardElement.style.setProperty("--border-color", rgbColor);
+      });
+    }
+  };
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
       <h1 className="font-poppins font-semibold text-white text-center justify-center text-7xl mb-12 pt-12">
@@ -72,16 +88,24 @@ const Clubs = () => {
             to={`/clubs/${team.team_code}`}
             className="group relative overflow-hidden rounded-lg shadow-lg transition-all ease-in duration-700 transform translate-y-10 opacity-0"
             ref={(el) => (cardsRef.current[index] = el)}
+            style={{
+              "--hover-bg-color": "transparent",
+              "--border-color": "transparent",
+              borderBottomWidth: "4px",
+              borderBottomColor: "var(--border-color)"
+            }}
           >
             <div className="relative h-64 glassmorphism">
               <img
                 src={assets[team.team_code]}
                 alt={team.team_name}
                 className="absolute inset-0 h-full w-full p-4 object-cover object-center opacity-100 transition-opacity "
+                onLoad={(e) => setCardBackgroundColor(e.target, cardsRef.current[index])}
               />
             </div>
             <div className="absolute inset-0 bg-black bg-opacity-0 transition-opacity group-hover:bg-opacity-25"></div>
-            <div className="relative p-4 glassmorphism flex items-center justify-between group-hover:bg-white">
+            <div className="relative p-4 glassmorphism flex items-center justify-between group-hover:bg-[var(--hover-bg-color)]"
+                 style={{ height: '70px' }}> {/* Set a fixed height */}
               <h3 className="text-xl font-poppins font-semibold text-white group-hover:text-black">
                 {team.team_name}
               </h3>
