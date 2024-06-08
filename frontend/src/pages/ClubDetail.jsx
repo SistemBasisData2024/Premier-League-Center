@@ -93,9 +93,20 @@ const ClubDetail = () => {
           <h1 className="font-poppins font-semibold text-center justify-center ss:text-[55px] text-[45px] mt-20">
             <span className="text-gradient">Players</span>
           </h1>
-          <h2 className="font-poppins font-semibold text-center justify-center ss:text-[90px] text-[45px] text-white mb-8">
-            {teamMembers.length > 0 && teamMembers[0].team_name}
-          </h2>
+          <div className="flex items-center justify-center mb-8">
+            {teamMembers.length > 0 && (
+              <>
+                <img
+                  src={assets[team_code]}
+                  alt={teamMembers[0].team_name}
+                  className="w-24 h-24 mr-2 object-cover"
+                />
+                <h2 className="font-poppins font-semibold ss:text-[90px] text-[45px] text-white">
+                  {teamMembers[0].team_name}
+                </h2>
+              </>
+            )}
+          </div>
 
           <div className="mx-auto max-w-md mb-12">
             <input
@@ -123,10 +134,10 @@ const ClubDetail = () => {
                   alt={member.member_name}
                   className="w-24 h-24 rounded-full mx-auto mb-4"
                 />
-                <h2 className="text-xl font-semibold text-center mb-2">
+                <h2 className="text-xl font-semibold text-center mb-2 text-white">
                   {member.member_name}
                 </h2>
-                <p className="text-center">
+                <p className="text-center text-white">
                   {member.member_role}
                 </p>
               </div>

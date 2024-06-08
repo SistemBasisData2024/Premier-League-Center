@@ -1,6 +1,8 @@
 import style from "../style";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
+import Schedule from "../components/Schedule";
+import Results from "../components/Results";
 import Footer from "../components/Footer";
 import { useEffect, useState, useRef } from "react";
 
@@ -49,13 +51,13 @@ const MainPage = () => {
 
                 <div className={`bg-primary ${style.paddingX} ${style.flexCenter}`}>
                     <div ref={ref2} className={`${style.boxWidth} transition-opacity ease-in duration-700 ${isVisible2 ? "opacity-100" : "opacity-0"}`}>
-                        {/* <Schedule /> */}
+                        <Schedule />
                     </div>
                 </div>
 
                 <div className={`bg-primary ${style.paddingX} ${style.flexCenter}`}>
                     <div ref={ref3} className={`${style.boxWidth} transition-opacity ease-in duration-700 ${isVisible3 ? "opacity-100" : "opacity-0"}`}>
-                        {/* <Results /> */}
+                        <Results />
                         <Footer />
                     </div>
                 </div>

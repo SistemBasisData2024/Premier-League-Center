@@ -51,18 +51,26 @@ const Clubs = () => {
     setSearchKeyword(e.target.value);
   };
 
-  const setCardBackgroundColor = (imgElement, cardElement) => {
+  const setCardBackgroundColor = (imgElement, cardElement, textElement) => {
     if (imgElement.complete) {
       const color = colorThief.getColor(imgElement);
       const rgbColor = `rgb(${color.join(",")})`;
       cardElement.style.setProperty("--hover-bg-color", rgbColor);
       cardElement.style.setProperty("--border-color", rgbColor);
+
+      const brightness = (color[0] * 299 + color[1] * 587 + color[2] * 114) / 1000;
+      const textColor = brightness > 128 ? "black" : "white";
+      textElement.style.setProperty("--text-hover-color", textColor);
     } else {
       imgElement.addEventListener("load", () => {
         const color = colorThief.getColor(imgElement);
         const rgbColor = `rgb(${color.join(",")})`;
         cardElement.style.setProperty("--hover-bg-color", rgbColor);
         cardElement.style.setProperty("--border-color", rgbColor);
+
+        const brightness = (color[0] * 299 + color[1] * 587 + color[2] * 114) / 1000;
+        const textColor = brightness > 128 ? "black" : "white";
+        textElement.style.setProperty("--text-hover-color", textColor);
       });
     }
   };
@@ -100,18 +108,18 @@ const Clubs = () => {
                 src={assets[team.team_code]}
                 alt={team.team_name}
                 className="absolute inset-0 h-full w-full p-4 object-cover object-center opacity-100 transition-opacity "
-                onLoad={(e) => setCardBackgroundColor(e.target, cardsRef.current[index])}
+                onLoad={(e) => setCardBackgroundColor(e.target, cardsRef.current[index], cardsRef.current[index].querySelector(".team-name"))}
               />
             </div>
             <div className="absolute inset-0 bg-black bg-opacity-0 transition-opacity group-hover:bg-opacity-25"></div>
             <div className="relative p-4 glassmorphism flex items-center justify-between group-hover:bg-[var(--hover-bg-color)]"
                  style={{ height: '70px' }}> {/* Set a fixed height */}
-              <h3 className="text-xl font-poppins font-semibold text-white group-hover:text-black">
+              <h3 className="team-name text-xl font-poppins font-semibold text-white group-hover:text-[var(--text-hover-color)]">
                 {team.team_name}
               </h3>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-white transition-transform group-hover:translate-x-1 group-hover:text-black"
+                className="h-6 w-6 text-white transition-transform group-hover:translate-x-1 group-hover:text-[var(--text-hover-color)]"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
