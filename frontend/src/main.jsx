@@ -8,7 +8,9 @@ import RegisterPage from './pages/RegisterPage';
 import ClubsPage from './pages/ClubsPage';
 import ClubDetail from './pages/ClubDetail';
 import ErrorPage from './pages/Page404';
+import DataManagementPage from './pages/DataManagementPage';
 import LeaderboardPage from './pages/LeaderboardPage';
+import FillMatchData from './pages/FillMatchData';
 import './index.css';
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 
@@ -22,6 +24,8 @@ const router = createBrowserRouter(
       <Route path="register" element={<RegisterPage />} />
       <Route path="clubs" element={<ClubsPage />} />
       <Route path="clubs/:team_code" element={<ClubDetail />} />
+      <Route path="FillMatchData/:match_code" element={<FillMatchData />} />
+      <Route path="datamanagement" element={<DataManagementPage />} />
       <Route path="leaderboard" element={<LeaderboardPage />} />
     </Route>
   )

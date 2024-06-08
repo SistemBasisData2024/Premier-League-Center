@@ -19,6 +19,8 @@ import LUT from "./foto_team/LUT.png"
 import BUR from "./foto_team/BUR.png"
 import SHU from "./foto_team/SHU.png"
 
+import trash from "./Trash.svg";
+
 export{
   MCI,
   ARS,
@@ -40,4 +42,5 @@ export{
   LUT,
   BUR,
   SHU,
+  trash
 };
