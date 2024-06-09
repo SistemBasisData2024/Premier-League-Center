@@ -88,23 +88,25 @@ const Upcoming = () => {
 
   const handleDelete = (match_code) => {
     axios
-      .delete(`http://localhost:3001/matchInfo/${match_code}`)
-      .then((response) => {
-        console.log("Match deleted successfully");
-        fetch("http://localhost:3001/UpcomingMatches")
-          .then((response) => response.json())
-          .then((data) => setMatches(data))
-          .catch((error) => console.error("Error fetching data", error));
+        .delete(`http://localhost:3001/Matches`, { params: { match_code } })
+        .then((response) => {
+            console.log("Match deleted successfully");
+            // Fetch updated lists of upcoming and result matches
+            fetch("http://localhost:3001/UpcomingMatches")
+                .then((response) => response.json())
+                .then((data) => setMatches(data))
+                .catch((error) => console.error("Error fetching data", error));
 
-        fetch("http://localhost:3001/ResultMatches")
-          .then((response) => response.json())
-          .then((data) => setResults(data))
-          .catch((error) => console.error("Error fetching data", error));
-      })
-      .catch((error) => {
-        console.error("Error deleting match", error);
-      });
-  };
+            fetch("http://localhost:3001/ResultMatches")
+                .then((response) => response.json())
+                .then((data) => setResults(data))
+                .catch((error) => console.error("Error fetching data", error));
+        })
+        .catch((error) => {
+            console.error("Error deleting match", error);
+        });
+};
+
 
   const handleAddMatch = (event) => {
     event.preventDefault();
@@ -114,7 +116,7 @@ const Upcoming = () => {
       .padStart(3, "0")}`;
 
     axios
-      .post("http://localhost:3001/InsertMatch", {
+      .post("http://localhost:3001/CreateMatch", {
         ...newMatch,
         match_code: newMatchCode,
       })
@@ -134,7 +136,7 @@ const Upcoming = () => {
   const handleFillMatchData = (event) => {
     event.preventDefault();
     axios
-      .put("http://localhost:3001/FillMatchData", {
+      .put("http://localhost:3001/UpdateMatch", {
         match_code: currentMatch.match_code,
         ...matchData,
       })
@@ -160,25 +162,25 @@ const Upcoming = () => {
     <div className="text-center">
       <button
         onClick={() => setShowAddModal(true)}
-        className="btn btn-primary mb-4"
+        className="btn btn-primary mb-4 bg-[#38003c] border-0 text-white hover:bg-white hover:text-black"
       >
-        Add Match
+        + New Match
       </button>
-      <section className="flex flex-wrap justify-between text-left">
-        <div className="w-full lg:w-1/2 ">
+      <section className="flex flex-wrap justify-between text-left w-full">
+        <div className="w-full lg:w-1/2 pr-4">
           <h1 className="font-poppins font-semibold text-white text-center justify-center ss:text-[40px] text-[30px]">
             <span className="text-gradient"> Upcoming </span>
             <span> Matches </span>
           </h1>
 
-          <div className={`overflow-x-auto mb-6 feature-card`}>
+          <div className={`overflow-x-auto mt-4 feature-card`}>
             <table className="min-w-full bg-#050505">
               <thead>
                 <tr className="bg-[#38003c]">
-                  <th className="font-poppins px-4 py-2 text-white">Name</th>
-                  <th className="font-poppins px-4 py-2 text-white">Teams</th>
+                  <th className="font-poppins px-4 py-2 text-white">Tournament Name</th>
+                  <th className="font-poppins px-4 py-2 text-white">Clubs</th>
                   <th className="font-poppins px-4 py-2 text-white">
-                    Match Date
+                    Schedule
                   </th>
                   <th className="font-poppins px-4 py-2 text-white"></th>
                 </tr>
@@ -188,11 +190,6 @@ const Upcoming = () => {
                   <tr key={index} className="bg-white">
                     <td className="border px-4 py-2 text-black">
                       <div className="flex items-center">
-                        <img
-                          src={assets[match.tournament_code]}
-                          alt="page-icon"
-                          className="w-8 h-8 mr-2 object-cover"
-                        />
                         <div>
                           <div className="font-bold">
                             {match.tournament_name}
@@ -209,9 +206,9 @@ const Upcoming = () => {
                     <td className="border px-4 py-2 text-black">
                       {formatMatchDate(match.match_date)}
                     </td>
-                    <td className="border px-4 py-2 text-black">
+                    <td className="border px-4 py-2 text-black flex">
                       <button
-                        className="btn btn-ghost w-14 h-14 ml-2"
+                        className="btn btn-ghost w-14 h-14 ml-2 bg-[#581d63] text-white hover:bg-white hover:text-black"
                         onClick={() => openFillModal(match)}
                       >
                         Fill Match Data
@@ -717,12 +714,12 @@ const Upcoming = () => {
             </>
           )}
         </div>
-        <div className="w-full lg:w-1/2">
+        <div className="w-full lg:w-1/2 pl-4">
           <h1 className="font-poppins font-semibold text-white text-center justify-center ss:text-[40px] text-[30px]">
             <span className="text-gradient"> Results </span>
             <span> Matches </span>
           </h1>
-          <div className={`overflow-x-auto feature-card`}>
+          <div className={`overflow-x-auto feature-card mt-4`}>
             <table className="min-w-full bg-#050505">
               <thead>
                 <tr className="bg-[#38003c]">
@@ -736,13 +733,8 @@ const Upcoming = () => {
               <tbody>
                 {results.map((match, index) => (
                   <tr key={index} className="bg-white">
-                    <td className="border px-4 py-2 text-black">
-                      <div className="flex items-center">
-                        <img
-                          src={assets[match.tournament_code]}
-                          alt="page-icon"
-                          className="w-8 h-8 mr-2 object-cover"
-                        />
+                    <td className="border px-4 py-2 text-black align-text-top">
+                      <div className="flex">
                         <div>
                           <div className="font-bold">
                             {match.tournament_name}
@@ -753,17 +745,23 @@ const Upcoming = () => {
                         </div>
                       </div>
                     </td>
-                    <td className="border py-2 text-black">
-                      {match.match_winner}
-                      <br />
-                      <span className="badge badge-ghost badge-sm">
-                        {match.team_1_code} vs {match.team_2_code}
-                      </span>
+                    <td className="border text-black align-text-top">
+                    {match.team_1_code} vs {match.team_2_code}
+                    <br />
+                      {match.match_winner === null ? (
+                        <span className="bg-yellow-500 px-2 rounded-md text-white">
+                          DRAW
+                        </span>
+                      ) : (
+                        <span className="bg-green-500 px-2 rounded-md text-white">
+                          {match.match_winner}
+                        </span>
+                      )}
                     </td>
-                    <td className="border px-4 py-2 text-black">
+                    <td className="border px-4 py-2 text-black align-text-top">
                       {match.team_1_score} - {match.team_2_score}
                     </td>
-                    <td className="border py-2 text-black">
+                    <td className="border py-2 text-black align-text-top">
                       <div className="font-bold mr-12">
                         Possession: <br />
                         <span className="font-normal">
@@ -816,7 +814,7 @@ const Upcoming = () => {
 
 const DataManagement = () => (
   <section id="datamanagement" className={layout.section}>
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div className="w-full px-4 sm:px-6 lg:px-8">
       <h1 className="font-poppins font-semibold text-white text-center justify-center text-7xl mb-12 pt-12">
         <span className="text-gradient">Admin Data </span>
         <span> Management </span>
