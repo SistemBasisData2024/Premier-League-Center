@@ -1,6 +1,6 @@
 # Premier League Center
 
-Premier League Center adalah 
+Premier League Center adalah sebuah aplikasi web yang dirancang untuk menyediakan informasi terkini dan komprehensif mengenai Liga Primer Inggris. Aplikasi ini memungkinkan pengguna untuk mendapatkan berita terbaru, jadwal pertandingan, hasil pertandingan, statistik pemain, dan klasemen liga. Dengan antarmuka yang intuitif dan responsif, Premier League Center memberikan pengalaman pengguna yang optimal baik di desktop maupun perangkat mobile.
 
 # 💻 Tech Stack:
 
