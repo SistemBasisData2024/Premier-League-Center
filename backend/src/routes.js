@@ -42,6 +42,6 @@ router.post("/CreateMatch", Match.CreateMatch);
 //Update Match
 router.put("/UpdateMatch", Match.MatchResult);
 //DeleteMatchResult
-router.delete('/Matches', Match.DeleteMatchResult);
+router.delete('/Matches/:match_code', Match.DeleteMatchResult);
 
 module.exports = router;

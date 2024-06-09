@@ -112,20 +112,24 @@ const MatchResult = async (req, res) => {
     }
 };
 
-//Delete belum kelar
+//DELETE
 const DeleteMatchResult = async (req, res) => {
-    const match_code = req.query.match_code;
+    const { match_code } = req.params;
 
     try {
         const result = await db.query('DELETE FROM match_info WHERE match_code = $1', [match_code]);
+        
         if (result.rowCount === 0) {
-            return res.status(404).json({ message: 'Pertandingan tidak ditemukan' });
+            return res.status(404).json({ message: 'Match not found' });
         }
+        
+        return res.status(200).json({ message: 'Match deleted successfully' });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Kesalahan Server Internal' });
+        return res.status(500).json({ message: 'Internal Server Error' });
     }
-}
+};
+
 
 
 
