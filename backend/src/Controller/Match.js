@@ -112,7 +112,6 @@ const MatchResult = async (req, res) => {
     }
 };
 
-//DELETE
 const DeleteMatchResult = async (req, res) => {
     const { match_code } = req.params;
 
@@ -129,6 +128,8 @@ const DeleteMatchResult = async (req, res) => {
         return res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
+
 
 
 
