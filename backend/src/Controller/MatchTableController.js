@@ -1,7 +1,6 @@
 const db = require('../db');//mundur 2 kali 
 
 //Tabel upcoming Matches
-
 const UpcomingMatches = async (req, res) => {
     const query = `
     SELECT 
@@ -29,6 +28,7 @@ WHERE
     });
 }
 
+//Tabel result Matches
 const ResultMatches = async (req, res) => {
     const query = `
     SELECT 
@@ -69,9 +69,22 @@ WHERE
     });
 }
 
+//Tabel Premier League
 const PremLeagTable= async (req, res) => {
     const query = `
-    SELECT * FROM premier_league;
+    SELECT 
+        ROW_NUMBER() OVER (ORDER BY points DESC) AS position,
+        team_code,
+        name,
+        matches_played,
+        wins,
+        draws,
+        losses,
+        points
+    FROM 
+        premier_league
+    ORDER BY 
+        points DESC;
     `;
 
     db.query(query, (err, result) => {

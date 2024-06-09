@@ -104,7 +104,7 @@ VALUES
 CREATE TABLE team_info (
     team_code varchar(3) REFERENCES teams,
     member_name text UNIQUE NOT NULL,
-    member_code varchar(6) PRIMARY KEY,
+    member_code int NOT NULL,
     member_role role NOT NULL
 );
 

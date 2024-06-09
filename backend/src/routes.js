@@ -1,7 +1,8 @@
 const { Router } = require("express");
 const AdminController = require("./Controller/AdminController");
 const TeamController = require("./Controller/TeamController");
-const MatchController = require("./Controller/MatchController");
+const MatchController = require("./Controller/MatchTableController");
+const Match = require("./Controller/Match");
 const router = Router();
 
 //Admin
@@ -30,11 +31,17 @@ router.get("/teamInfo/:team_code", TeamController.TeamInfo);
 router.get("/UpcomingMatches", MatchController.UpcomingMatches);
 
 //Untuk Result Matches
-router.get("/UpcomingMatches", MatchController.UpcomingMatches);
+router.get("/ResultMatches", MatchController.ResultMatches);
 
 //Untuk PL Table
 router.get("/PremierLeague", MatchController.PremLeagTable);
 
 //-------------------------------------------------------------
+//Create MAtch
+router.post("/CreateMatch", Match.CreateMatch);
+//Update Match
+router.put("/UpdateMatch", Match.MatchResult);
+//DeleteMatchResult
+router.delete('/Matches', Match.DeleteMatchResult);
 
 module.exports = router;
