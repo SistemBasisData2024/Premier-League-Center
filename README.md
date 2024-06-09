@@ -10,6 +10,7 @@ Premier League Center adalah
 
 UML
 
+![UML](https://github.com/SistemBasisData2024/Premier-League-Center/assets/65178008/c59ae369-39d7-4671-bbe3-cc8a870ef6f8)
 
 ERD
 
@@ -17,6 +18,7 @@ ERD
 
 Flowchart
 
+![PLC_Flowchart](https://github.com/SistemBasisData2024/Premier-League-Center/assets/65178008/7f7f8e4d-7307-4615-9ca3-1c849709350e)
 
 ![](https://hackmd-prod-images.s3-ap-northeast-1.amazonaws.com/uploads/upload_d165531e1f6d9025db6b3caca20329d7.png?AWSAccessKeyId=AKIA3XSAAW6AWSKNINWO&Expires=1686496044&Signature=2cWlT7ULi2Tuk2T7Gn6TP1axRGY%3D)
 
