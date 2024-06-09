@@ -24,7 +24,6 @@ const router = createBrowserRouter(
       <Route path="register" element={<RegisterPage />} />
       <Route path="clubs" element={<ClubsPage />} />
       <Route path="clubs/:team_code" element={<ClubDetail />} />
-      <Route path="FillMatchData/:match_code" element={<FillMatchData />} />
       <Route path="datamanagement" element={<DataManagementPage />} />
       <Route path="leaderboard" element={<LeaderboardPage />} />
     </Route>
