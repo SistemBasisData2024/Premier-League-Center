@@ -37,6 +37,8 @@ router.get("/ResultMatches", MatchController.ResultMatches);
 router.get("/PremierLeague", MatchController.PremLeagTable);
 
 //-------------------------------------------------------------
+//Get All Tournaments
+router.get("/Tournaments", Match.Tournaments);
 //Create MAtch
 router.post("/CreateMatch", Match.CreateMatch);
 //Update Match

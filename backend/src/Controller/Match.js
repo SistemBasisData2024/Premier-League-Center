@@ -1,5 +1,20 @@
 const db = require('../db');//mundur 2 kali 
 
+
+const Tournaments = async (req, res) => {
+    const query = `
+      SELECT * FROM tournaments;
+      `;
+  
+    db.query(query, (err, result) => {
+      if (err) {
+        console.error("Error executing query", err);
+        return;
+      }
+      res.json(result.rows);
+    });
+  };
+
 const CreateMatch = async (req, res) => {
     const {
         match_code,
@@ -18,7 +33,6 @@ const CreateMatch = async (req, res) => {
         res.status(500).json({ error: 'Failed to create match' });
     }
 };
-
 const MatchResult = async (req, res) => {
     const {
         match_code,
@@ -27,7 +41,6 @@ const MatchResult = async (req, res) => {
         team_2_code,
         team_1_score,
         team_2_score,
-        match_winner,
         possession_avg_1,
         possession_avg_2,
         shots_1,
@@ -39,6 +52,13 @@ const MatchResult = async (req, res) => {
         fouls_1,
         fouls_2
     } = req.body;
+
+    let { match_winner } = req.body;
+
+    // If match_winner is not provided, set it to null
+    if (typeof match_winner === 'undefined' || !match_winner) {
+        match_winner = null;
+    }
 
     const updateMatchQuery = `
         UPDATE match_info
@@ -60,14 +80,29 @@ const MatchResult = async (req, res) => {
 
     try {
         // Update match info if it is currently 'Upcoming'
-        const result = await db.query(updateMatchQuery, [team_1_score, team_2_score, match_winner, possession_avg_1, possession_avg_2, shots_1, shots_2, shots_on_goal_1, shots_on_goal_2, passing_acc_1, passing_acc_2, fouls_1, fouls_2, match_code]);
+        const result = await db.query(updateMatchQuery, [
+            team_1_score, 
+            team_2_score, 
+            match_winner, 
+            possession_avg_1, 
+            possession_avg_2, 
+            shots_1, 
+            shots_2, 
+            shots_on_goal_1, 
+            shots_on_goal_2, 
+            passing_acc_1, 
+            passing_acc_2, 
+            fouls_1, 
+            fouls_2, 
+            match_code
+        ]);
 
         if (result.rowCount === 0) {
             return res.status(404).json({ message: 'Match not found or not in Upcoming status' });
         }
 
-        // Only update team stats if the tournament code is 'PL'
-        if (tournament_code === 'PL') {
+        // Check if the tournament_code is defined and contains "PL"
+        if (tournament_code && tournament_code.includes('PL')) {
             // Fetch current stats for both teams
             const team1StatsResult = await db.query(selectQuery, [team_1_code]);
             const team2StatsResult = await db.query(selectQuery, [team_2_code]);
@@ -99,10 +134,24 @@ const MatchResult = async (req, res) => {
             }
 
             // Update team 1 stats
-            await db.query(updateTeamStatsQuery, [team1Stats.matches_played, team1Stats.wins, team1Stats.draws, team1Stats.losses, team1Stats.points, team_1_code]);
+            await db.query(updateTeamStatsQuery, [
+                team1Stats.matches_played, 
+                team1Stats.wins, 
+                team1Stats.draws, 
+                team1Stats.losses, 
+                team1Stats.points, 
+                team_1_code
+            ]);
 
             // Update team 2 stats
-            await db.query(updateTeamStatsQuery, [team2Stats.matches_played, team2Stats.wins, team2Stats.draws, team2Stats.losses, team2Stats.points, team_2_code]);
+            await db.query(updateTeamStatsQuery, [
+                team2Stats.matches_played, 
+                team2Stats.wins, 
+                team2Stats.draws, 
+                team2Stats.losses, 
+                team2Stats.points, 
+                team_2_code
+            ]);
         }
 
         res.status(200).json({ message: 'Match and stats updated successfully' });
@@ -111,6 +160,7 @@ const MatchResult = async (req, res) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
 
 const DeleteMatchResult = async (req, res) => {
     const { match_code } = req.params;
@@ -138,5 +188,5 @@ const DeleteMatchResult = async (req, res) => {
 
 
 
-module.exports = { CreateMatch, MatchResult, DeleteMatchResult};
+module.exports = { CreateMatch, MatchResult, DeleteMatchResult, Tournaments };
 

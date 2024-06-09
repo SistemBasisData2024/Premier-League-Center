@@ -85,10 +85,9 @@ const Upcoming = () => {
       setMatchCount(totalMatches + totalResults);
     }
   }, [newMatch.tournament_code, matches, results]);
-
   const handleDelete = (match_code) => {
     axios
-        .delete(`http://localhost:3001/Matches`, { params: { match_code } })
+        .delete(`http://localhost:3001/Matches/${match_code}`)
         .then((response) => {
             console.log("Match deleted successfully");
             // Fetch updated lists of upcoming and result matches
@@ -146,6 +145,10 @@ const Upcoming = () => {
         fetch("http://localhost:3001/UpcomingMatches")
           .then((response) => response.json())
           .then((data) => setMatches(data))
+          .catch((error) => console.error("Error fetching data", error));
+        fetch("http://localhost:3001/ResultMatches")
+          .then((response) => response.json())
+          .then((data) => setResults(data))
           .catch((error) => console.error("Error fetching data", error));
       })
       .catch((error) => {
